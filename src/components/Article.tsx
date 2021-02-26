@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import styled from "styled-components";
+import { ArticleData } from "../ArticleData";
 
 const ArticleWrapper = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const Headline = styled.div`
   width: 100%;
   padding-bottom: 1em;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     flex-direction: column;
     padding-bottom: 0;
   }
@@ -42,7 +43,7 @@ const Title = styled.div`
   text-align: left;
 
   @media (max-width: 600px) {
-    font-size: 17px;
+    font-size: 20px;
     font-weight: bold;
     padding-right: 0;
   }
@@ -77,16 +78,6 @@ const ImageFallback = styled.div`
   background-color: lightgray;
   font-size: 15px;
 `;
-
-export interface ArticleData {
-  id: number;
-  image: string;
-  title: string;
-  preamble: string;
-  date: string;
-  category: string;
-  sortingDate: number;
-}
 
 interface Props {
   data: ArticleData;

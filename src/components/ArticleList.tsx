@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { Article, ArticleData } from "./Article";
+import { ArticleData } from "../ArticleData";
+import { Article } from "./Article";
 import { Message } from "./Message";
 
 const List = styled.ul`
@@ -10,7 +11,7 @@ const List = styled.ul`
   align-items: center;
   padding: 0 0.5rem;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding: 0 1rem;
     order: 3;
     flex: 2 0 0;

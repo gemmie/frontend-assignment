@@ -1,4 +1,4 @@
-import { ArticleData } from "../components/Article";
+import { ArticleData } from "../ArticleData";
 
 const API_PATH = "http://localhost:6010";
 const ARTICLES_PATH = "/articles/";

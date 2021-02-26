@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import { getArticles } from "../api/article";
-import { ArticleData } from "../components/Article";
+import { ArticleData } from "../ArticleData";
 import ArticleList from "../components/ArticleList";
 import Filter from "../components/Filter";
 import { Header } from "../components/Header";
@@ -15,7 +15,7 @@ const Layout = styled.div`
   justify-content: center;
   margin: 0 0 60px 0;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     flex-wrap: wrap;
   }
 `;
@@ -30,16 +30,7 @@ const MainPage = () => {
   useEffect(() => {
     Promise.all([getArticles("fashion"), getArticles("sports")])
       .then(([resF, resS]) => {
-        setArticles(
-          resF.concat(resS).map((a) => {
-            let d = a.date.split(" ");
-            validateMonth(d[1]);
-            a.sortingDate = Date.parse(
-              a.date.replace(d[1], monthsMap[d[1] as MonthsMapKey])
-            );
-            return a;
-          })
-        );
+        setArticles(resF.concat(resS).map((a) => calculateSortingDate(a)));
         setLoading(false);
       })
       .catch((e) => {
@@ -48,11 +39,20 @@ const MainPage = () => {
       });
   }, []);
 
+  const calculateSortingDate = (a: ArticleData): ArticleData => {
+    const d = a.date.split(" ");
+    validateMonth(d[1]);
+    a.sortingDate = Date.parse(
+      a.date.replace(d[1], monthsMap[d[1] as MonthsMapKey])
+    );
+    return a;
+  };
+
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setOptions((curr) => [...curr, e.target.id]);
     } else {
-      setOptions((curr) => (curr = curr.filter((x) => x !== e.target.id)));
+      setOptions((curr) => curr.filter((x) => x !== e.target.id));
     }
   };
 
@@ -61,16 +61,16 @@ const MainPage = () => {
       if (sorted) {
         setArticles([...articles].reverse());
       } else {
-        const sortedArt = [...articles].sort(
-          (a: ArticleData, b: ArticleData) => {
-            return a.sortingDate - b.sortingDate;
-          }
-        );
-        setArticles(sortedArt);
+        setArticles([...articles].sort(articleDateComparer));
         setSorted(true);
       }
     }
   };
+
+  const articleDateComparer = (a: ArticleData, b: ArticleData): number => {
+    return a.sortingDate - b.sortingDate;
+  };
+
   return (
     <div>
       <Header />
