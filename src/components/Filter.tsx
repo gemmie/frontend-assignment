@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC } from "react";
 import styled from "styled-components";
+import Checkbox from "./Checkbox";
 
 const Wrapper = styled.div`
   display: flex;
@@ -7,29 +8,23 @@ const Wrapper = styled.div`
   align-items: flex-start;
   padding: 0 1rem;
   font-size: 17px;
+  white-space: nowrap;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     order: 1;
     flex: 1 0 0;
     flex-basis: auto;
   }
 `;
 
-const CheckboxWrapper = styled.div`
+const FlexColumn = styled.div`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     flex-direction: row;
-    align-items: flex-start;
   }
-`;
-
-const Checkbox = styled.input`
-  margin-right: 0.5em;
-  zoom: 1.4;
-  cursor: pointer;
 `;
 
 const DataSource = styled.span`
@@ -44,21 +39,14 @@ const Filter: FC<Props> = ({ changeHandler }) => {
   return (
     <Wrapper>
       <DataSource>Data sources:</DataSource>
-      <CheckboxWrapper>
-        <div>
-          <Checkbox
-            id={"fashion"}
-            type={"checkbox"}
-            onChange={changeHandler}
-            defaultChecked={true}
-          />
-          <label htmlFor={"fashion"}>Fashion</label>
-        </div>
-        <div>
-          <Checkbox id={"sport"} type={"checkbox"} onChange={changeHandler} />
-          <label htmlFor={"sport"}>Sports</label>
-        </div>
-      </CheckboxWrapper>
+      <FlexColumn>
+        <Checkbox
+          id={"fashion"}
+          onChange={changeHandler}
+          defaultChecked={true}
+        />
+        <Checkbox id={"sport"} onChange={changeHandler} />
+      </FlexColumn>
     </Wrapper>
   );
 };
